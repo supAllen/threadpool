@@ -1,3 +1,9 @@
+/**
+ * @ClassName SimpleThreadPoolExecutor
+ * @Description
+ * @Author colin_xun@163.com
+ * @CreateTime 2018/3/5 下午4:40
+ */
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -14,12 +20,12 @@ import java.util.stream.IntStream;
  */
 public class SimpleThreadPoolExecutor extends Thread {
 
-
+    //任务状态，释放，运行中，锁，停止
     private enum TaskState {
         FREE, RUNNABLE, BLOCKED, TERMINATED;
     }
 
-
+    //自定义异常
     static class DiscardException extends RuntimeException {
         private static final long serialVersionUID = 8827362380544575914L;
 
@@ -29,7 +35,6 @@ public class SimpleThreadPoolExecutor extends Thread {
     }
 
     interface DiscardPolicy {//拒绝策略接口
-
         void discard() throws DiscardException;
     }
 
@@ -259,6 +264,6 @@ public class SimpleThreadPoolExecutor extends Thread {
                     System.out.printf("[线程] - [%s] 工作完毕...\n", Thread.currentThread().getName());
                 })
         );
-        //executor.shutdown();如果放开注释即会执行完所有任务关闭线程池
+        executor.shutdown();//如果放开注释即会执行完所有任务关闭线程池
     }
 }
